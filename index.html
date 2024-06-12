@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Police Siren</title>
+</head>
+<body id="body">
+    <input type="text" id="num" value="7">
+    <button onclick="toggleSiren()">Toggle Siren</button>
+    <button onclick="changeSpeed()">Change Speed</button>
+    <h1 id="result"></h1> 
+    <audio id="sirenAudio" loop>
+        <source src="police_siren.mp3" type="audio/mpeg">
+        Your browser does not support the audio element.
+    </audio>
+    <script>
+        let sirenInterval = null;
+        let isSirenOn = false;
+        let sirenSpeed = 500; // Initial speed in milliseconds
+
+        function toggleSiren() {
+            if (!isSirenOn) {
+                startSiren();
+            } else {
+                stopSiren();
+            }
+            isSirenOn = !isSirenOn;
+        }
+
+        function startSiren() {
+            document.getElementById('sirenAudio').play();
+            sirenInterval = setInterval(function() {
+                document.getElementById('body').style.backgroundColor = isRed ? "red" : "blue";
+                isRed = !isRed;
+            }, sirenSpeed);
+        }
+
+        function stopSiren() {
+            document.getElementById('sirenAudio').pause();
+            clearInterval(sirenInterval);
+            document.getElementById('body').style.backgroundColor = "white"; // Reset background color
+        }
+
+        function changeSpeed() {
+            // Increase or decrease the speed by 100 milliseconds
+            sirenSpeed += 100;
+            if (isSirenOn) {
+                stopSiren();
+                startSiren();
+            }
+        }
+        
+        let isRed = true; // To keep track of the current color
+    </script>
+</body>
+</html>
